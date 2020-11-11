@@ -4,6 +4,12 @@
     </div>
 
     <div class="mt-6">
+        <div class="flex justify-between">
+            <div></div>
+            <div class="mr-2">
+                <input type="checkbox" class="mr-2 leading-tight" wire:model="active" />Active Only?
+            </div>
+        </div>
         <table class="table-auto w-full">
             <thead>
                 <tr>
@@ -41,6 +47,4 @@
     <div class="mt-4">
         {{ $items->links() }}
     </div>
-
-    <div class="bg-"
 </div>
