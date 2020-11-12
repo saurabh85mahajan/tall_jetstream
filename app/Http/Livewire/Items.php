@@ -91,6 +91,7 @@ class Items extends Component
 
     public function confirmItemEdit(Item $item) 
     {
+        $this->resetErrorBag();
         $this->item = $item;
         $this->confirmingItemAdd = true;
     }
