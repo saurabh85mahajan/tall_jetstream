@@ -1,9 +1,13 @@
 <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-    <div class="mt-8 text-2xl">
-        Items
+    <div class="mt-8 text-2xl flex justify-between">
+        <div>Items</div> 
+        <div class="mr-2">
+            <x-jet-button wire:click="confirmItemAdd" class="bg-blue-500 hover:bg-blue-700">
+                Add New Item
+            </x-jet-button>
+        </div>
     </div>
 
-    {{ $query }}
     <div class="mt-6">
         <div class="flex justify-between">
             <div class="">
@@ -20,8 +24,6 @@
                         <div class="flex items-center">
                             <button wire:click="sortBy('id')">ID</button>
                             <x-sort-icon sortField="id" :sort-by="$sortBy" :sort-asc="$sortAsc" />
-
-
                         </div>
                     </th>
                     <th class="px-4 py-2">
@@ -72,22 +74,59 @@
     </div>
 
     <x-jet-dialog-modal wire:model="confirmingItemDeletion">
-            <x-slot name="title">
-                {{ __('Delete Item') }}
-            </x-slot>
+        <x-slot name="title">
+            {{ __('Delete Item') }}
+        </x-slot>
 
-            <x-slot name="content">
-                {{ __('Are you sure you want to delete Item? ') }}
-            </x-slot>
+        <x-slot name="content">
+            {{ __('Are you sure you want to delete Item? ') }}
+        </x-slot>
 
-            <x-slot name="footer">
-                <x-jet-secondary-button wire:click="$set('confirmingItemDeletion', false)" wire:loading.attr="disabled">
-                    {{ __('Nevermind') }}
-                </x-jet-secondary-button>
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="$set('confirmingItemDeletion', false)" wire:loading.attr="disabled">
+                {{ __('Nevermind') }}
+            </x-jet-secondary-button>
 
-                <x-jet-danger-button class="ml-2" wire:click="deleteItem({{ $confirmingItemDeletion }})" wire:loading.attr="disabled">
-                    {{ __('Delete') }}
-                </x-jet-danger-button>
-            </x-slot>
-        </x-jet-dialog-modal>
+            <x-jet-danger-button class="ml-2" wire:click="deleteItem({{ $confirmingItemDeletion }})" wire:loading.attr="disabled">
+                {{ __('Delete') }}
+            </x-jet-danger-button>
+        </x-slot>
+    </x-jet-dialog-modal>
+
+    <x-jet-dialog-modal wire:model="confirmingItemAdd">
+        <x-slot name="title">
+            {{ __('Add Item') }}
+        </x-slot>
+
+        <x-slot name="content">
+            <div class="col-span-6 sm:col-span-4">
+                <x-jet-label for="name" value="{{ __('Name') }}" />
+                <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="item.name" />
+                <x-jet-input-error for="item.name" class="mt-2" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-4 mt-4">
+                <x-jet-label for="price" value="{{ __('Price') }}" />
+                <x-jet-input id="price" type="text" class="mt-1 block w-full" wire:model.defer="item.price" />
+                <x-jet-input-error for="item.price" class="mt-2" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-4 mt-4">
+                <label class="flex items-center">
+                    <input type="checkbox" wire:model.defer="item.status" class="form-checkbox" />
+                    <span class="ml-2 text-sm text-gray-600">Active</span>
+                </label>
+            </div>
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="$set('confirmingItemAdd', false)" wire:loading.attr="disabled">
+                {{ __('Nevermind') }}
+            </x-jet-secondary-button>
+
+            <x-jet-danger-button class="ml-2" wire:click="saveItem()" wire:loading.attr="disabled">
+                {{ __('Save') }}
+            </x-jet-danger-button>
+        </x-slot>
+    </x-jet-dialog-modal>
 </div>
