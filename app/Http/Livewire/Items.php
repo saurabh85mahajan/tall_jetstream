@@ -15,6 +15,8 @@ class Items extends Component
     public $sortBy = 'id';
     public $sortAsc = true;
 
+    public $confirmingItemDeletion = false;
+
     protected $queryString = [
         'active' => ['except' => false],
         'q' => ['except' => ''],
@@ -61,5 +63,17 @@ class Items extends Component
             $this->sortAsc = !$this->sortAsc;
         }
         $this->sortBy = $field;
+    }
+
+    public function confirmItemDeletion( $id) 
+    {
+        // $item->delete();
+        $this->confirmingItemDeletion = $id;
+    }
+
+    public function deleteItem( Item $item) 
+    {
+        $item->delete();
+        $this->confirmingItemDeletion = false;
     }
 }
